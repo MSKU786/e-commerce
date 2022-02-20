@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <header>
       {/* Top Nav */}
-      <div className="mr-4 flex flex-grow items-center bg-gray-800 py-2 px-4 text-white">
+      <div className="flex flex-grow items-center bg-gray-800 py-2 px-4 text-white">
         <div className="mt-2 flex flex-grow items-center sm:flex-grow-0">
           <Image
             src="https://cdn4.iconfinder.com/data/icons/shopping-colorful-flat-long-shadow/135/Shopping_icons-31-16-512.png"
