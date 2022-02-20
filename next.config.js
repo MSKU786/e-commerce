@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['fakerstoreapi.com', 'cdn4.iconfinder.com'],
+    domains: ['fakestoreapi.com', 'cdn4.iconfinder.com'],
   },
 }
