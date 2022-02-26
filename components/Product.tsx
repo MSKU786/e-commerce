@@ -9,7 +9,10 @@ function Product({ product }: any) {
   const [hasPrime] = useState(Math.random() * 0.5)
 
   return (
-    <div className="relative z-30 m-5 flex flex-col bg-white py-4 px-4 shadow-lg">
+    <div
+      key={id}
+      className="relative z-30 m-5 flex flex-col bg-white py-4 px-4 shadow-lg"
+    >
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
@@ -22,7 +25,7 @@ function Product({ product }: any) {
             <StarIcon className="h-5 text-yellow-500" fill="#ffd700" />
           ))}
       </div>
-      <p className="line-clamp-2 my-2 text-xs">{description}</p>
+      <p className="my-2 text-xs line-clamp-2">{description}</p>
       {hasPrime && <div></div>}
       <div className="mb-5 flex items-center">
         <CurrencyRupeeIcon className="h-5" />

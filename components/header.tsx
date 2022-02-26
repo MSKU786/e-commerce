@@ -7,6 +7,8 @@ import {
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Header() {
+  const { data: session }: any = useSession()
+  console.log('This is the session', session)
   return (
     <header>
       {/* Top Nav */}
@@ -33,10 +35,12 @@ export default function Header() {
         {/* Right side */}
         <div className="flex items-center space-x-6 text-center text-xs">
           <div
-            onClick={() => signIn()}
+            onClick={() => {
+              session ? signOut() : signIn()
+            }}
             className="cursor-pointer text-left hover:underline"
           >
-            <p> Hello Manish Singh</p>
+            <p> {session ? `Hello, ${session?.user?.name}` : 'Sign In'}</p>
             <p className="font-bold md:text-sm"> Accounts & Lists</p>
           </div>
           <div className="cursor-pointer text-left hover:underline">
