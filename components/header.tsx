@@ -4,6 +4,8 @@ import {
   MenuIcon,
   ShoppingCartIcon,
 } from '@heroicons/react/outline'
+import { signIn, signOut, useSession } from 'next-auth/react'
+
 export default function Header() {
   return (
     <header>
@@ -30,7 +32,10 @@ export default function Header() {
 
         {/* Right side */}
         <div className="flex items-center space-x-6 text-center text-xs">
-          <div className="cursor-pointer text-left hover:underline">
+          <div
+            onClick={() => signIn()}
+            className="cursor-pointer text-left hover:underline"
+          >
             <p> Hello Manish Singh</p>
             <p className="font-bold md:text-sm"> Accounts & Lists</p>
           </div>
