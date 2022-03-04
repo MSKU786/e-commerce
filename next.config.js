@@ -6,7 +6,7 @@ module.exports = {
       'fakestoreapi.com',
       'cdn4.iconfinder.com',
       'img.search.brave.com',
-      'fedex.com',
+      'www.fedex.com',
     ],
   },
 }

@@ -2,11 +2,20 @@ import { CurrencyRupeeIcon, StarIcon } from '@heroicons/react/outline'
 
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToBasket } from '../slice/basketSlice'
 
 function Product({ product }: any) {
+  const dispatch = useDispatch()
+
   const { id, title, price, description, category, image } = product
   const [starNumber] = useState(Math.floor(Math.random() * 5 + 1))
   const [hasPrime] = useState(Math.random() * 0.5)
+  const addItemToBasket = () => {
+    //addToBasket()
+    //Sending the product as an action to the Redux store.. the basket slice
+    dispatch(addToBasket(product))
+  }
 
   return (
     <div
@@ -31,7 +40,9 @@ function Product({ product }: any) {
         <CurrencyRupeeIcon className="h-5" />
         <span className="ml-1 text-lg font-semibold">{price}</span>
       </div>
-      <button className="button mt-auto">Add to Basket</button>
+      <button onClick={() => addItemToBasket()} className="button mt-auto">
+        Add to Basket
+      </button>
     </div>
   )
 }

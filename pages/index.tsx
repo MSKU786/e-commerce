@@ -13,7 +13,7 @@ const Home: NextPage = ({ products }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="mx-auto md:max-w-4xl lg:max-w-7xl ">
+      <main className="mx-auto max-w-screen-xl ">
         <Banner />
         <ProductFeed products={products} />
       </main>
