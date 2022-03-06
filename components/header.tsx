@@ -13,6 +13,7 @@ export default function Header() {
   const { data: session }: any = useSession()
   const router = useRouter()
   const items = useSelector(selectItems)
+  console.log(items)
   return (
     <header>
       {/* Top Nav */}
