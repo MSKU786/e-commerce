@@ -6,11 +6,13 @@ import {
 } from '@heroicons/react/outline'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { selectItems } from '../slice/basketSlice'
 
 export default function Header() {
   const { data: session }: any = useSession()
-
   const router = useRouter()
+  const items = useSelector(selectItems)
   return (
     <header>
       {/* Top Nav */}
@@ -60,7 +62,7 @@ export default function Header() {
           >
             <ShoppingCartIcon className="h-12 w-12 font-medium" />
             <span className="absolute top-1 left-6  rounded-full bg-yellow-400 px-2 text-center text-sm font-semibold text-black">
-              0
+              {items?.length}
             </span>
             <p className="hiddenfont-bold inline-block md:block md:text-sm">
               Cart

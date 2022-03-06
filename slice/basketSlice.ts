@@ -20,6 +20,6 @@ export const basketSlice = createSlice({
 export const { addToBasket, removeFromBasket }: any = basketSlice.actions
 
 //Selectors- This is how we information from Global store slick
-export const selectItems = (state: any) => state.basket.items
+export const selectItems = (state: any) => state?.basket?.items
 
 export default basketSlice.reducer
