@@ -12,7 +12,14 @@ export const basketSlice = createSlice({
     addToBasket: (state, action) => {
       state.items = [...state.items, action.payload]
     },
-    removeFromBasket: (state, action) => {},
+    removeFromBasket: (state, action) => {
+      console.log(action.payload)
+      let newitem = state.items.filter(
+        (item: any) => item?.id != action?.payload?.id
+      )
+      console.log(newitem)
+      state.items = newitem
+    },
   },
 })
 

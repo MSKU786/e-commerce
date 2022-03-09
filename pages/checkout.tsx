@@ -1,3 +1,4 @@
+import { CurrencyRupeeIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import CheckoutProduct from '../components/CheckoutProduct'

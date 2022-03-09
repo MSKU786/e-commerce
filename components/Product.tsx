@@ -38,7 +38,7 @@ function Product({ product }: any) {
       {hasPrime && <div></div>}
       <div className="mb-5 flex items-center">
         <CurrencyRupeeIcon className="h-5" />
-        <span className="ml-1 text-lg font-semibold">{price}</span>
+        <span className="ml-1 text-lg font-semibold">{price * 75}</span>
       </div>
       <button onClick={() => addItemToBasket()} className="button mt-auto">
         Add to Basket
