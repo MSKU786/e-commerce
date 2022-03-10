@@ -4,13 +4,13 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { removeFromBasket } from '../slice/basketSlice'
 
-function CheckoutProduct({ item }: any) {
+function CheckoutProduct({ item, index }: any) {
   const { image, id, price, title, description, category, rating } = item
   const starNumber = Math.floor(Math.random() * 5 + 1)
   const dispatch = useDispatch()
 
   const removeItemFromBasket = () => {
-    dispatch(removeFromBasket({ id }))
+    dispatch(removeFromBasket({ index }))
   }
 
   return (

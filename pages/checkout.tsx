@@ -1,4 +1,5 @@
 import { CurrencyRupeeIcon } from '@heroicons/react/outline'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import CheckoutProduct from '../components/CheckoutProduct'
@@ -7,6 +8,7 @@ import { selectItems } from '../slice/basketSlice'
 
 export default function Checkout() {
   const items: any = useSelector(selectItems)
+  const { session }: any = useSession()
   return (
     <div className="bg-gray-100">
       <Header />
@@ -26,9 +28,30 @@ export default function Checkout() {
               ? 'No Items in the basket'
               : 'Your shopping Basket'}
           </h1>
-          {items.map((item: any) => (
-            <CheckoutProduct {...{ item }} />
+          {items.map((item: any, index: Number) => (
+            <CheckoutProduct {...{ item, index }} />
           ))}
+        </div>
+
+        {/* Right Side */}
+        <div>
+          {items.length > 0 && (
+            <div>
+              <h2>
+                Subtotal {items?.length}
+                <CurrencyRupeeIcon className="h-5" />
+                <span>
+                  {' '}
+                  {items.reduce(
+                    (item: any, ans: number) => ans + item.price * 75
+                  )}
+                </span>
+              </h2>
+              <button>
+                {session ? 'Sign in to Checkout' : 'Procced to checkout'}
+              </button>
+            </div>
+          )}
         </div>
       </main>
     </div>
