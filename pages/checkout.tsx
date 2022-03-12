@@ -6,14 +6,24 @@ import CheckoutProduct from '../components/CheckoutProduct'
 import Header from '../components/header'
 import { selectItems, selectItemsTotal } from '../slice/basketSlice'
 import { loadStripe } from '@stripe/stripe-js'
+import axios from 'axios'
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY || '')
+const stripePromise = loadStripe(process.env.stripe_public_key || '')
 export default function Checkout() {
   const items: any = useSelector(selectItems)
   const total: number = useSelector(selectItemsTotal)
   const { data: session }: any = useSession()
 
-  const createCheckoutSession = async () => {}
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise
+
+    const checkoutSession = await axios.post('/api/createCheckoutSession', {
+      items: items,
+      email: session?.user?.email,
+    })
+
+    //Call the backend to create a checkout session
+  }
   return (
     <div className="bg-gray-100">
       <Header />
