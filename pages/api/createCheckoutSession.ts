@@ -8,24 +8,22 @@ export default async (req: any, res: any) => {
     quantity: 1,
     price_data: {
       currency: 'inr',
-      uniit_amount: item.price * 100 * 75,
+      unit_amount: item.price * 100 * 75,
       product_data: {
         name: item?.title,
         images: [item?.image],
       },
     },
   }))
+  console.log(transformedItem)
 
-  const session = await stripe.checkout.session.create({
+  const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    shipping_address_collection: {
-      allowed_countries: ['IN'],
-    },
     line_items: transformedItem,
     mode: 'payment',
-    success_url: `${process.env.HOST}/success`,
-    cancel_url: `${process.env.HOST}/checkout`,
-    meta_data: {
+    success_url: `${process.env.host}/success`,
+    cancel_url: `${process.env.host}/checkout`,
+    metadata: {
       email,
       images: JSON.stringify(items.map((item: any) => item.image)),
     },

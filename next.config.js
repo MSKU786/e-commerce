@@ -12,6 +12,7 @@ module.exports = {
   env: {
     stripe_public_key: process.env.STRIPE_PUBLIC_KEY,
     stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+    host: process.env.HOST,
   },
   ignoreBuildErrors: true,
 }
