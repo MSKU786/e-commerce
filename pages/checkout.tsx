@@ -22,6 +22,14 @@ export default function Checkout() {
       email: session?.user?.email,
     })
 
+    const result = await stripe?.redirectToCheckout({
+      sessionId: checkoutSession?.data?.id,
+    })
+
+    if (result?.error) {
+      alert(result?.error?.message)
+    }
+
     //Call the backend to create a checkout session
   }
   return (
