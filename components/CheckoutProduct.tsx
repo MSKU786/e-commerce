@@ -35,12 +35,7 @@ function CheckoutProduct({ item, index }: any) {
       </div>
 
       <div className="col-span-1 flex-row py-10">
-        <button
-          onClick={() => console.log('yes ')}
-          className="button mt-auto mb-4 block"
-        >
-          Add to Basket
-        </button>
+        <button className="button mt-auto mb-4 block">Add to Basket</button>
         <button
           onClick={() => removeItemFromBasket()}
           className="button mt-auto block bg-red-600"
