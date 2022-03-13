@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin'
-import { buffer } from 'stream/consumers'
+import { buffer } from 'micro'
 
 //Secure a connection to firebase from the backend
 const serviceAccount = require('../../admin.json')
@@ -14,6 +14,7 @@ const stripe = require('stripe')(process.env.stripe_secret_key)
 const endPointSecret = process.env.webhook_secret
 
 const fullFillOrder = async (session: any) => {
+  console.log('here it is')
   return app
     .firestore()
     .collection('users')
@@ -31,19 +32,21 @@ const fullFillOrder = async (session: any) => {
     })
 }
 export default async (req: any, res: any) => {
-  if (req.method == 'POST') {
+  if (req.method === 'POST') {
     const requestBuffer = await buffer(req)
     const payload = requestBuffer.toString()
     const sig = req.headers['stripe-signature']
-
+    console.log('here guys')
+    console.log(sig, payload)
     let event
     //Verify that event posted came from stripe
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret)
     } catch (err: any) {
+      console.log('is this here', err.message)
       return res.status(400).send(`Webhook Error: ${err?.message}`)
     }
-
+    console.log('this si event', event)
     //Handle the checkout session completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object
