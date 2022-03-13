@@ -1,7 +1,9 @@
 import { CheckCircleIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 import Header from '../components/header'
 
 export default function Success() {
+  const router = useRouter()
   return (
     <>
       <div className="h-screen bg-gray-100">
@@ -19,7 +21,13 @@ export default function Success() {
             Thank You for shopping with us, We will send a confirmation once
             your order has been shipped
           </p>
-          <button className="button mt-6"> Go to my orders</button>
+          <button
+            onClick={() => router.push('/orders')}
+            className="button mt-6"
+          >
+            {' '}
+            Go to my orders
+          </button>
         </div>
       </div>
     </>
