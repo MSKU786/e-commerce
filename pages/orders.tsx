@@ -1,4 +1,5 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { getServerSession } from 'next-auth'
 import { getSession, useSession } from 'next-auth/react'
 import Header from '../components/header'
 import db from '../firebase'
@@ -22,17 +23,19 @@ export async function getServerSideProps(context: any) {
   const stripe = require('stripe')(process.env.stripe_secret_key)
 
   //Get the users logged in credentials
-  const session: any = getSession(context)
+  const { user }: any = await getSession(context)
 
-  if (!session) {
+  if (!user) {
     return {
       props: {},
     }
   }
+  // console.log('esssio', session)
 
-  const stripeOrders = await getDocs(collection(db, 'users'))
+  const stripeOrders = await getDoc(doc(db, 'users', user?.email)).data
+  console.log(stripeOrders.data())
 
-  stripeOrders?.docs.map((user: any) => console.log(user.data()))
+  //stripeOrders?.docs.map((user: any) => console.log(user.data()))
   //Stripe orders
 
   // const orders = await Promise.all(
