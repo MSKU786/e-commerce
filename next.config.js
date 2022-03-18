@@ -21,6 +21,8 @@ module.exports = {
     project_id: process.env.PROJECT_ID,
     private_key_id: process.env.PRIVATE_KEY_ID,
     private_key: process.env.PRIVATE_KEY,
+    google_client_id: process.env.GOOGLE_CLIENT_ID,
+    google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
   },
   ignoreBuildErrors: true,
 }
