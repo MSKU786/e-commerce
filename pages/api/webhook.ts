@@ -1,11 +1,24 @@
 import * as admin from 'firebase-admin'
 import { buffer } from 'micro'
 
-//Secure a connection to firebase from the backend
-const serviceAccount = require('../../admin.json')
-
+const serviceAccount: any = {
+  type: 'service_account',
+  project_id: process.env.project_id,
+  private_key_id: process.env.private_key_id,
+  private_key: process.env.private_key,
+  client_email:
+    'firebase-adminsdk-a3ogn@e-commerce2-3d89d.iam.gserviceaccount.com',
+  client_id: '110319895682376782439',
+  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+  token_uri: 'https://oauth2.googleapis.com/token',
+  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+  client_x509_cert_url:
+    'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-a3ogn%40e-commerce2-3d89d.iam.gserviceaccount.com',
+}
 const app = !admin.apps.length
-  ? admin.initializeApp({ credential: admin.credential.cert(serviceAccount) })
+  ? admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    })
   : admin.app()
 
 //Establish coonection to stripe

@@ -2,13 +2,13 @@ import { initializeApp, getApp, getApps } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCTvQiKVhwESJZ7rDwGNblIDxZlxe-pxm0',
-  authDomain: 'e-commerce2-3d89d.firebaseapp.com',
-  projectId: 'e-commerce2-3d89d',
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.auth_domain,
+  projectId: process.env.project_id,
   storageBucket: 'e-commerce2-3d89d.appspot.com',
   messagingSenderId: '489198849583',
-  appId: '1:489198849583:web:6e1b46f1c64217736b80da',
-  measurementId: 'G-33ENKQ60Z8',
+  appId: process.env.app_id,
+  measurementId: process.env.measurement_id,
 }
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()

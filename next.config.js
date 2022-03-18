@@ -14,6 +14,13 @@ module.exports = {
     stripe_secret_key: process.env.STRIPE_SECRET_KEY,
     host: process.env.HOST,
     webhook_secret: process.env.WEBHOOK_SECRET,
+    api_key: process.env.API_KEY,
+    auth_domain: process.env.AUTH_DOMAIN,
+    app_id: process.env.APP_ID,
+    measurement_id: process.env.MEASUREMENT_ID,
+    project_id: process.env.PROJECT_ID,
+    private_key_id: process.env.PRIVATE_KEY_ID,
+    private_key: process.env.PRIVATE_KEY,
   },
   ignoreBuildErrors: true,
 }
