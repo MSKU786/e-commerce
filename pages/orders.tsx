@@ -32,7 +32,7 @@ export async function getServerSideProps(context: any) {
   }
   // console.log('esssio', session)
 
-  const stripeOrders = await getDoc(doc(db, 'users', user?.email)).data
+  const stripeOrders = await getDoc(doc(db, 'users', user?.email))
   console.log(stripeOrders.data())
 
   //stripeOrders?.docs.map((user: any) => console.log(user.data()))

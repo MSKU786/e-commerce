@@ -15,10 +15,8 @@ const endPointSecret = process.env.webhook_secret
 
 const fullFillOrder = async (session: any) => {
   console.log('session', session)
-  const res = await app
+  const orderRef = await app
     .firestore()
-    .collection('users')
-    .doc(session.metadata.email)
     .collection('orders')
     .doc(session?.id)
     .set({
@@ -27,7 +25,14 @@ const fullFillOrder = async (session: any) => {
       imaages: JSON.parse(session.metadata.images),
       timestamp: Date.now(),
     })
-  return res
+
+  const object = await app
+    .firestore()
+    .collection('users')
+    .doc(session.metadata.email)
+    .get()
+
+  return object
 }
 export default async (req: any, res: any) => {
   if (req.method === 'POST') {
