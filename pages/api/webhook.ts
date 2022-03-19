@@ -47,8 +47,10 @@ const fullFillOrder = async (session: any) => {
 
   return object
 }
+
 export default async (req: any, res: any) => {
   if (req.method === 'POST') {
+    console.log("here");
     const requestBuffer = await buffer(req)
     const payload = requestBuffer.toString()
     const sig = req.headers['stripe-signature']
@@ -56,12 +58,14 @@ export default async (req: any, res: any) => {
     //Verify that event posted came from stripe
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret)
+      console.log("this is event",event);
     } catch (err: any) {
       return res.status(400).send(`Webhook Error: ${err?.message}`)
     }
     //Handle the checkout session completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object
+      console.log("session generated",session);
       return fullFillOrder(session)
         .then(() => res.status(200))
         .catch((err) => {
