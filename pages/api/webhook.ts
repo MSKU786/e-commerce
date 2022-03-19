@@ -1,11 +1,12 @@
 import * as admin from 'firebase-admin'
 import { buffer } from 'micro'
 
+let privateKey = process.env.private_key?.replace(/\\n/g, '\n')
 const serviceAccount: any = {
   type: 'service_account',
   project_id: process.env.project_id,
   private_key_id: process.env.private_key_id,
-  private_key: process.env.private_key,
+  private_key: privateKey,
   client_email:
     'firebase-adminsdk-a3ogn@e-commerce2-3d89d.iam.gserviceaccount.com',
   client_id: '110319895682376782439',
@@ -27,12 +28,12 @@ const stripe = require('stripe')(process.env.stripe_secret_key)
 const endPointSecret = process.env.webhook_secret
 
 const fullFillOrder = async (session: any) => {
-  console.log('session', session)
   const orderRef = await app
     .firestore()
     .collection('orders')
     .doc(session?.id)
     .set({
+      id: session?.id,
       amount: session.amount_total / 100,
       amount_shipping: session.total_details.amount_shipping / 100,
       imaages: JSON.parse(session.metadata.images),
@@ -45,12 +46,39 @@ const fullFillOrder = async (session: any) => {
     .doc(session.metadata.email)
     .get()
 
+  if (object.exists === true) {
+    let finalArray = object.data()?.orders
+    await app
+      .firestore()
+      .collection('users')
+      .doc(session.metadata.email)
+      .set(
+        {
+          orders: [...finalArray, session.id],
+          _id: session.metadata.email,
+        },
+        { merge: true }
+      )
+  } else {
+    let ordersId = [orderRef]
+    await app
+      .firestore()
+      .collection('users')
+      .doc(session.metadata.email)
+      .set(
+        {
+          orders: [session.id],
+          _id: session.metadata.email,
+        },
+        { merge: true }
+      )
+  }
+
   return object
 }
 
 export default async (req: any, res: any) => {
   if (req.method === 'POST') {
-    console.log("here");
     const requestBuffer = await buffer(req)
     const payload = requestBuffer.toString()
     const sig = req.headers['stripe-signature']
@@ -58,14 +86,13 @@ export default async (req: any, res: any) => {
     //Verify that event posted came from stripe
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret)
-      console.log("this is event",event);
     } catch (err: any) {
       return res.status(400).send(`Webhook Error: ${err?.message}`)
     }
     //Handle the checkout session completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object
-      console.log("session generated",session);
+      console.log('session generated', session)
       return fullFillOrder(session)
         .then(() => res.status(200))
         .catch((err) => {
