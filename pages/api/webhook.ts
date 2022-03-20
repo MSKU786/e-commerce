@@ -54,7 +54,7 @@ const fullFillOrder = async (session: any) => {
       .doc(session.metadata.email)
       .set(
         {
-          orders: [...finalArray, session.id],
+          orders: [session.id, ...finalArray],
           _id: session.metadata.email,
         },
         { merge: true }

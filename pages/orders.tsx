@@ -1,15 +1,25 @@
+import { CurrencyRupeeIcon } from '@heroicons/react/outline'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import moment from 'moment'
 import { getServerSession } from 'next-auth'
 import { getSession, useSession } from 'next-auth/react'
 import Header from '../components/header'
 import db from '../firebase'
-export default function Orders(orders: any) {
+export default function Orders({ orders }: any) {
   const { data: session } = useSession()
+  console.log(orders)
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-screen-lg p-10">
-        <h1 className=" mb-2 border-b border-yellow-400 pb-1 text-3xl "></h1>
+      <main className="xsm:p-2 mx-auto max-w-screen-lg p-10">
+        <h1 className=" mb-2 border-b border-yellow-400 pb-1 text-3xl ">
+          Your Orders
+        </h1>
+        {session ? <h2>Orders</h2> : <h2>Please sign in to see your orders</h2>}
+        {orders?.map((order: any) => {
+          console.log(order)
+          return <Order {...{ order }} />
+        })}
       </main>
     </>
   )
@@ -46,26 +56,46 @@ export async function getServerSideProps(context: any) {
       }
     })
   )
-  //stripeOrders?.docs.map((user: any) => console.log(user.data()))
-  //Stripe orders
 
-  // const orders = await Promise.all(
-  //   stripeOrders?.docs?.map(async (order: any) => ({
-  //     id: order.id,
-  //     amount: order.data().amount,
-  //     amountShipping: order.data().amount_shipping,
-  //     images: order.data().images,
-  //     timestamp: order.data().timestamp,
-  //     items: (
-  //       await stripe?.checkout?.sessions?.listLineItems(order?.id, {
-  //         limit: 100,
-  //       })
-  //     )?.data,
-  //   }))
-  // )
   return {
     props: {
-      order: allOrders,
+      orders: allOrders,
     },
   }
+}
+
+const Order = ({ order }: any) => {
+  console.log(order)
+  let date = new Date(order?.timestamp)
+  let date2 = date.toISOString()
+
+  return (
+    <div className="relative rounded-md border">
+      <div className="flex items-center space-x-10 bg-gray-100 p-5 text-sm text-gray-600  ">
+        <div>
+          <p className="text-sm font-bold"> ORDER PLACED</p>
+          <p>{moment(date).format('DD MMM YYYY')}</p>
+        </div>
+        <div>
+          <p className="text-sm font-bold"> TOTAL</p>
+          <p>
+            <CurrencyRupeeIcon className="mb-1 inline h-5" />
+            <span className="pt-3text-lg ml-1 font-semibold">
+              {order.amount}
+            </span>
+          </p>
+        </div>
+        <p className="sm:text-md flex-1 self-end whitespace-nowrap text-right text-sm text-blue-500">
+          {order?.items?.length} Orders
+        </p>
+        <p
+          className="lg:w-22 white\ absolute top-2 right-2 w-52 truncate text-xs
+        "
+        >
+          Order # {order.id}
+        </p>
+      </div>
+      <div className="p-5 sm:p-10"></div>
+    </div>
+  )
 }
