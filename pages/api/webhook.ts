@@ -36,7 +36,7 @@ const fullFillOrder = async (session: any) => {
       id: session?.id,
       amount: session.amount_total / 100,
       amount_shipping: session.total_details.amount_shipping / 100,
-      imaages: JSON.parse(session.metadata.images),
+      images: JSON.parse(session.metadata.images),
       timestamp: Date.now(),
     })
 
@@ -92,7 +92,7 @@ export default async (req: any, res: any) => {
     //Handle the checkout session completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object
-      console.log('session generated', session)
+
       return fullFillOrder(session)
         .then(() => res.status(200))
         .catch((err) => {
