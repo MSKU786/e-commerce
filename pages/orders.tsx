@@ -88,14 +88,17 @@ const Order = ({ order }: any) => {
         <p className="sm:text-md flex-1 self-end whitespace-nowrap text-right text-sm text-blue-500">
           {order?.items?.length} Orders
         </p>
-        <p
-          className="lg:w-22 white\ absolute top-2 right-2 w-52 truncate text-xs
-        "
-        >
+        <p className="white absolute top-2 right-2 w-32 truncate text-xs md:w-40 lg:w-52">
           Order # {order.id}
         </p>
       </div>
-      <div className="p-5 sm:p-10"></div>
+      <div className="p-5 sm:p-10">
+        <div className="flex space-x-6 overflow-x-auto">
+          {order?.images?.map((image: string) => (
+            <img src={image} className="h-20 object-contain sm:h-32" />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

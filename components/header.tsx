@@ -13,7 +13,6 @@ export default function Header() {
   const { data: session }: any = useSession()
   const router = useRouter()
   const items = useSelector(selectItems)
-  console.log(items)
   return (
     <header>
       {/* Top Nav */}
@@ -51,7 +50,10 @@ export default function Header() {
             <p> {session ? `Hello, ${session?.user?.name}` : 'Sign In'}</p>
             <p className="font-bold md:text-sm"> Accounts & Lists</p>
           </div>
-          <div className="cursor-pointer text-left hover:underline">
+          <div
+            className="cursor-pointer text-left hover:underline"
+            onClick={() => router.push('/orders')}
+          >
             <p>Returns</p>
             <p className="font-bold md:text-sm">& Orders</p>
           </div>
