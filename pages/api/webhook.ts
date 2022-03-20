@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import { request } from 'http'
 import { buffer } from 'micro'
 
 let privateKey = process.env.private_key?.replace(/\\n/g, '\n')
@@ -82,17 +83,21 @@ export default async (req: any, res: any) => {
     const requestBuffer = await buffer(req)
     const payload = requestBuffer.toString()
     const sig = req.headers['stripe-signature']
+    console.log(requestBuffer, payload, sig)
+    console.log('till line 87')
     let event
     //Verify that event posted came from stripe
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret)
+      console.log(event, 'till line 92')
     } catch (err: any) {
+      console.log('eroor here 94')
       return res.status(400).send(`Webhook Error: ${err?.message}`)
     }
     //Handle the checkout session completed event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object
-
+      console.log('session getting genterated line 1000')
       return fullFillOrder(session)
         .then(() => res.status(200))
         .catch((err) => {
