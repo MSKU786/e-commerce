@@ -39,9 +39,14 @@ export async function getServerSideProps(context: any) {
   // console.log('esssio', session)
 
   const stripeOrders: any = await getDoc(doc(db, 'users', user?.email))
-  const orders = stripeOrders.data().orders
-  const allOrders = await Promise.all(
-    orders.map(async (order: any) => {
+  const orders = stripeOrders.data()?.orders
+  if (!orders) {
+    return {
+      props: {},
+    }
+  }
+  const allOrders = await Promise?.all(
+    orders?.map(async (order: any) => {
       const res: any = (await getDoc(doc(db, 'orders', order))).data()
       console.log(res)
       return {
