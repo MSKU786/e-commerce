@@ -43,11 +43,12 @@ export async function getServerSideProps(context: any) {
   const allOrders = await Promise.all(
     orders.map(async (order: any) => {
       const res: any = (await getDoc(doc(db, 'orders', order))).data()
+      console.log(res)
       return {
-        id: res.id,
-        amount: res.amount,
-        images: res.imaages,
-        timestamp: res.timestamp,
+        id: res?.id,
+        amount: res?.amount,
+        images: res?.images,
+        timestamp: res?.timestamp,
         items: (
           await stripe?.checkout?.sessions.listLineItems(order, {
             limit: 100,

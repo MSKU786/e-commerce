@@ -28,6 +28,12 @@ const stripe = require('stripe')(process.env.stripe_secret_key)
 
 const endPointSecret = process.env.webhook_secret
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
 const fullFillOrder = async (session: any) => {
   const orderRef = await app
     .firestore()
@@ -83,15 +89,12 @@ export default async (req: any, res: any) => {
     const requestBuffer = await buffer(req)
     const payload = requestBuffer.toString()
     const sig = req.headers['stripe-signature']
-    console.log(requestBuffer, payload, sig)
     console.log('till line 87')
     let event
     //Verify that event posted came from stripe
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret)
-      console.log(event, 'till line 92')
     } catch (err: any) {
-      console.log('eroor here 94')
       return res.status(400).send(`Webhook Error: ${err?.message}`)
     }
     //Handle the checkout session completed event
@@ -105,5 +108,8 @@ export default async (req: any, res: any) => {
           res.status(400).send(`Webhook Error: ${err.message}`)
         })
     }
+  } else {
+    res.setHeader('Allow', 'POST')
+    res.status(405).end('Method Not Allowed')
   }
 }
